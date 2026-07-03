@@ -22,3 +22,4 @@ backend/.mvn/
 
 # --- OS ---
 .DS_Store
+backend/.idea/
