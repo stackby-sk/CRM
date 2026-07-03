@@ -1,0 +1,24 @@
+
+# --- Node / Angular ---
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+frontend/npm-debug.log*
+
+# --- IDE ---
+.settings/
+.project
+.classpath
+.vscode/
+
+# --- Java / Maven ---
+backend/target/
+backend/.mvn/
+!backend/.mvn/wrapper/maven-wrapper.jar
+*.class
+*.jar
+*.war
+!backend/**/src/**/*.jar
+
+# --- OS ---
+.DS_Store
