@@ -1,0 +1,43 @@
+<div class="register-container">
+  <h2>Register</h2>
+
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <div class="form-field">
+      <label for="name">Name</label>
+      <input id="name" type="text" formControlName="name" />
+    </div>
+
+    <div class="form-field">
+      <label for="email">Email</label>
+      <input id="email" type="email" formControlName="email" />
+      @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
+        <span class="error">Please enter a valid email</span>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="password">Password</label>
+      <input id="password" type="password" formControlName="password" />
+      @if (registerForm.get('password')?.invalid && registerForm.get('password')?.touched) {
+        <span class="error">Password must be at least 6 characters</span>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="role">Role</label>
+      <select id="role" formControlName="role">
+        <option value="ADMIN">Admin</option>
+        <option value="SALES">Sales</option>
+        <option value="SUPPORT">Support</option>
+      </select>
+    </div>
+
+    @if (errorMessage) {
+      <div class="error server-error">{{ errorMessage }}</div>
+    }
+
+    <button type="submit" [disabled]="registerForm.invalid">Register</button>
+  </form>
+
+  <p>Already have an account? <a routerLink="/login">Login</a></p>
+</div>
