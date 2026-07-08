@@ -1,0 +1,44 @@
+<div class="customer-list-container">
+  <h2>Customers</h2>
+  <a routerLink="/customers/new" class="btn-add">+ Add Customer</a>
+
+  @if (loading()) {
+    <p>Loading customers...</p>
+  }
+
+  @if (errorMessage()) {
+    <p class="error">{{ errorMessage() }}</p>
+  }
+
+  @if (!loading() && customers().length === 0) {
+    <p>No customers yet.</p>
+  }
+
+  @if (!loading() && customers().length > 0) {
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Company</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (customer of customers(); track customer.id) {
+          <tr>
+            <td>{{ customer.name }}</td>
+            <td>{{ customer.company }}</td>
+            <td>{{ customer.email }}</td>
+            <td>{{ customer.phone }}</td>
+            <td>
+              <a [routerLink]="['/customers', customer.id, 'edit']">Edit</a>
+              <button (click)="deleteCustomer(customer.id)">Delete</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>

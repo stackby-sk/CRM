@@ -1,0 +1,41 @@
+<div class="customer-form-container">
+  <h2>{{ isEditMode ? 'Edit Customer' : 'Add Customer' }}</h2>
+
+  <form [formGroup]="customerForm" (ngSubmit)="onSubmit()">
+    <div class="form-field">
+      <label for="name">Name</label>
+      <input id="name" type="text" formControlName="name" />
+    </div>
+
+    <div class="form-field">
+      <label for="company">Company</label>
+      <input id="company" type="text" formControlName="company" />
+    </div>
+
+    <div class="form-field">
+      <label for="email">Email</label>
+      <input id="email" type="email" formControlName="email" />
+      @if (customerForm.get('email')?.invalid && customerForm.get('email')?.touched) {
+        <span class="error">Please enter a valid email</span>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="phone">Phone</label>
+      <input id="phone" type="text" formControlName="phone" />
+    </div>
+
+    <div class="form-field">
+      <label for="address">Address</label>
+      <input id="address" type="text" formControlName="address" />
+    </div>
+
+    @if (errorMessage) {
+      <div class="error server-error">{{ errorMessage }}</div>
+    }
+
+    <button type="submit" [disabled]="customerForm.invalid">
+      {{ isEditMode ? 'Update' : 'Create' }}
+    </button>
+  </form>
+</div>
