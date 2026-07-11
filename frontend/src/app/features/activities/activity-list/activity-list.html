@@ -1,0 +1,46 @@
+<div class="activity-list-container">
+  <h2>Activities</h2>
+  <a routerLink="/activities/new" class="btn-add">+ Add Activity</a>
+
+  @if (loading()) {
+    <p>Loading activities...</p>
+  }
+
+  @if (errorMessage()) {
+    <p class="error">{{ errorMessage() }}</p>
+  }
+
+  @if (!loading() && activities().length === 0) {
+    <p>No activities yet.</p>
+  }
+
+  @if (!loading() && activities().length > 0) {
+    <table>
+      <thead>
+        <tr>
+          <th>Customer</th>
+          <th>Type</th>
+          <th>Due Date</th>
+          <th>Status</th>
+          <th>Assigned To</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (activity of activities(); track activity.id) {
+          <tr>
+            <td>{{ activity.customerName }}</td>
+            <td>{{ activity.type }}</td>
+            <td>{{ activity.dueDate | date: 'mediumDate' }}</td>
+            <td>{{ activity.status }}</td>
+            <td>{{ activity.assignedToName || '-' }}</td>
+            <td>
+              <a [routerLink]="['/activities', activity.id, 'edit']">Edit</a>
+              <button (click)="deleteActivity(activity.id)">Delete</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>

@@ -1,0 +1,46 @@
+<div class="contact-list-container">
+  <h2>Contacts</h2>
+  <a routerLink="/contacts/new" class="btn-add">+ Add Contact</a>
+
+  @if (loading()) {
+    <p>Loading contacts...</p>
+  }
+
+  @if (errorMessage()) {
+    <p class="error">{{ errorMessage() }}</p>
+  }
+
+  @if (!loading() && contacts().length === 0) {
+    <p>No contacts yet.</p>
+  }
+
+  @if (!loading() && contacts().length > 0) {
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Role</th>
+          <th>Customer</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (contact of contacts(); track contact.id) {
+          <tr>
+            <td>{{ contact.name }}</td>
+            <td>{{ contact.role || '-' }}</td>
+            <td>{{ contact.customerName }}</td>
+            <td>{{ contact.email || '-' }}</td>
+            <td>{{ contact.phone || '-' }}</td>
+            <td>
+              <a [routerLink]="['/contacts', contact.id, 'edit']">Edit</a>
+              <button (click)="deleteContact(contact.id)">Delete</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>

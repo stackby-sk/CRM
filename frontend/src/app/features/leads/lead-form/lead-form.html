@@ -1,0 +1,47 @@
+<div class="lead-form-container">
+  <h2>{{ isEditMode ? 'Edit Lead' : 'Add Lead' }}</h2>
+
+  <form [formGroup]="leadForm" (ngSubmit)="onSubmit()">
+    <div class="form-field">
+      <label for="customerId">Customer</label>
+      <select id="customerId" formControlName="customerId">
+        <option value="" disabled>Select a customer</option>
+        @for (customer of customers(); track customer.id) {
+          <option [value]="customer.id">{{ customer.name }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="form-field">
+      <label for="source">Source</label>
+      <input
+        id="source"
+        type="text"
+        formControlName="source"
+        placeholder="e.g. Website, Referral"
+      />
+    </div>
+
+    <div class="form-field">
+      <label for="status">Status</label>
+      <select id="status" formControlName="status">
+        @for (status of statusOptions; track status) {
+          <option [value]="status">{{ status }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="form-field">
+      <label for="value">Value ($)</label>
+      <input id="value" type="number" formControlName="value" />
+    </div>
+
+    @if (errorMessage()) {
+      <div class="error server-error">{{ errorMessage() }}</div>
+    }
+
+    <button type="submit" [disabled]="leadForm.invalid">
+      {{ isEditMode ? 'Update' : 'Create' }}
+    </button>
+  </form>
+</div>

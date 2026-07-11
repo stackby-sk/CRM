@@ -1,0 +1,35 @@
+<div class="interaction-form-container">
+  <h2>Log Interaction</h2>
+
+  <form [formGroup]="interactionForm" (ngSubmit)="onSubmit()">
+    <div class="form-field">
+      <label for="customerId">Customer</label>
+      <select id="customerId" formControlName="customerId">
+        <option value="" disabled>Select a customer</option>
+        @for (customer of customers(); track customer.id) {
+          <option [value]="customer.id">{{ customer.name }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="form-field">
+      <label for="type">Type</label>
+      <select id="type" formControlName="type">
+        @for (type of typeOptions; track type) {
+          <option [value]="type">{{ type }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="form-field">
+      <label for="notes">Notes</label>
+      <textarea id="notes" formControlName="notes" rows="4"></textarea>
+    </div>
+
+    @if (errorMessage()) {
+      <div class="error server-error">{{ errorMessage() }}</div>
+    }
+
+    <button type="submit" [disabled]="interactionForm.invalid">Log Interaction</button>
+  </form>
+</div>

@@ -1,0 +1,45 @@
+<div class="interaction-list-container">
+  <h2>Interactions</h2>
+  <a routerLink="/interactions/new" class="btn-add">+ Log Interaction</a>
+
+  @if (loading()) {
+    <p>Loading interactions...</p>
+  }
+
+  @if (errorMessage()) {
+    <p class="error">{{ errorMessage() }}</p>
+  }
+
+  @if (!loading() && interactions().length === 0) {
+    <p>No interactions yet.</p>
+  }
+
+  @if (!loading() && interactions().length > 0) {
+    <table>
+      <thead>
+        <tr>
+          <th>Customer</th>
+          <th>Type</th>
+          <th>Notes</th>
+          <th>Logged By</th>
+          <th>Timestamp</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (interaction of interactions(); track interaction.id) {
+          <tr>
+            <td>{{ interaction.customerName }}</td>
+            <td>{{ interaction.type }}</td>
+            <td>{{ interaction.notes || '-' }}</td>
+            <td>{{ interaction.userName || '-' }}</td>
+            <td>{{ interaction.timestamp | date: 'short' }}</td>
+            <td>
+              <button (click)="deleteInteraction(interaction.id)">Delete</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>

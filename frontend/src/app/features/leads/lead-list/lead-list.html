@@ -1,0 +1,47 @@
+<p>lead-list works!</p>
+<div class="lead-list-container">
+  <h2>Leads</h2>
+  <a routerLink="/leads/new" class="btn-add">+ Add Lead</a>
+
+  @if (loading()) {
+    <p>Loading leads...</p>
+  }
+
+  @if (errorMessage()) {
+    <p class="error">{{ errorMessage() }}</p>
+  }
+
+  @if (!loading() && leads().length === 0) {
+    <p>No leads yet.</p>
+  }
+
+  @if (!loading() && leads().length > 0) {
+    <table>
+      <thead>
+        <tr>
+          <th>Customer</th>
+          <th>Source</th>
+          <th>Status</th>
+          <th>Value</th>
+          <th>Assigned To</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (lead of leads(); track lead.id) {
+          <tr>
+            <td>{{ lead.customerName }}</td>
+            <td>{{ lead.source }}</td>
+            <td>{{ lead.status }}</td>
+            <td>{{ lead.value }}</td>
+            <td>{{ lead.assignedToName || '-' }}</td>
+            <td>
+              <a [routerLink]="['/leads', lead.id, 'edit']">Edit</a>
+              <button (click)="deleteLead(lead.id)">Delete</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>

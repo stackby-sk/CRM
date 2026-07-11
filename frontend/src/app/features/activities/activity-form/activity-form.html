@@ -1,0 +1,46 @@
+<div class="activity-form-container">
+  <h2>{{ isEditMode ? 'Edit Activity' : 'Add Activity' }}</h2>
+
+  <form [formGroup]="activityForm" (ngSubmit)="onSubmit()">
+    <div class="form-field">
+      <label for="customerId">Customer</label>
+      <select id="customerId" formControlName="customerId">
+        <option value="" disabled>Select a customer</option>
+        @for (customer of customers(); track customer.id) {
+          <option [value]="customer.id">{{ customer.name }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="form-field">
+      <label for="type">Type</label>
+      <select id="type" formControlName="type">
+        @for (type of typeOptions; track type) {
+          <option [value]="type">{{ type }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="form-field">
+      <label for="dueDate">Due Date</label>
+      <input id="dueDate" type="date" formControlName="dueDate" />
+    </div>
+
+    <div class="form-field">
+      <label for="status">Status</label>
+      <select id="status" formControlName="status">
+        @for (status of statusOptions; track status) {
+          <option [value]="status">{{ status }}</option>
+        }
+      </select>
+    </div>
+
+    @if (errorMessage()) {
+      <div class="error server-error">{{ errorMessage() }}</div>
+    }
+
+    <button type="submit" [disabled]="activityForm.invalid">
+      {{ isEditMode ? 'Update' : 'Create' }}
+    </button>
+  </form>
+</div>

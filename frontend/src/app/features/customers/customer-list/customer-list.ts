@@ -32,6 +32,7 @@ export class CustomerList implements OnInit {
   }
 
   loadCustomers(): void {
+    this.errorMessage.set('');
     this.loading.set(true);
     this.customerService.getAll().subscribe({
       next: (data) => {
