@@ -1,46 +1,54 @@
-<div class="activity-list-container">
+<div class="d-flex justify-content-between align-items-center mb-3">
   <h2>Activities</h2>
-  <a routerLink="/activities/new" class="btn-add">+ Add Activity</a>
-
-  @if (loading()) {
-    <p>Loading activities...</p>
-  }
-
-  @if (errorMessage()) {
-    <p class="error">{{ errorMessage() }}</p>
-  }
-
-  @if (!loading() && activities().length === 0) {
-    <p>No activities yet.</p>
-  }
-
-  @if (!loading() && activities().length > 0) {
-    <table>
-      <thead>
-        <tr>
-          <th>Customer</th>
-          <th>Type</th>
-          <th>Due Date</th>
-          <th>Status</th>
-          <th>Assigned To</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (activity of activities(); track activity.id) {
-          <tr>
-            <td>{{ activity.customerName }}</td>
-            <td>{{ activity.type }}</td>
-            <td>{{ activity.dueDate | date: 'mediumDate' }}</td>
-            <td>{{ activity.status }}</td>
-            <td>{{ activity.assignedToName || '-' }}</td>
-            <td>
-              <a [routerLink]="['/activities', activity.id, 'edit']">Edit</a>
-              <button (click)="deleteActivity(activity.id)">Delete</button>
-            </td>
-          </tr>
-        }
-      </tbody>
-    </table>
-  }
+  <a routerLink="/activities/new" class="btn btn-primary">+ Add Activity</a>
 </div>
+
+@if (loading()) {
+  <p>Loading activities...</p>
+}
+
+@if (errorMessage()) {
+  <div class="alert alert-danger">{{ errorMessage() }}</div>
+}
+
+@if (!loading() && activities().length === 0) {
+  <p class="text-muted">No activities yet.</p>
+}
+
+@if (!loading() && activities().length > 0) {
+  <table class="table table-striped table-hover">
+    <thead class="table-dark">
+      <tr>
+        <th>Customer</th>
+        <th>Type</th>
+        <th>Due Date</th>
+        <th>Status</th>
+        <th>Assigned To</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (activity of activities(); track activity.id) {
+        <tr>
+          <td>{{ activity.customerName }}</td>
+          <td>{{ activity.type }}</td>
+          <td>{{ activity.dueDate | date: 'mediumDate' }}</td>
+          <td>
+            <span class="badge bg-warning text-dark">{{ activity.status }}</span>
+          </td>
+          <td>{{ activity.assignedToName || '-' }}</td>
+          <td>
+            <a
+              [routerLink]="['/activities', activity.id, 'edit']"
+              class="btn btn-sm btn-outline-primary me-2"
+              >Edit</a
+            >
+            <button class="btn btn-sm btn-outline-danger" (click)="deleteActivity(activity.id)">
+              Delete
+            </button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+}

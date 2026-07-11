@@ -1,40 +1,40 @@
-<div class="customer-form-container">
-  <h2>{{ isEditMode ? 'Edit Customer' : 'Add Customer' }}</h2>
+<div class="card p-4" style="max-width: 500px">
+  <h2 class="mb-4">{{ isEditMode ? 'Edit Customer' : 'Add Customer' }}</h2>
 
   <form [formGroup]="customerForm" (ngSubmit)="onSubmit()">
-    <div class="form-field">
-      <label for="name">Name</label>
-      <input id="name" type="text" formControlName="name" />
+    <div class="mb-3">
+      <label for="name" class="form-label">Name</label>
+      <input id="name" type="text" class="form-control" formControlName="name" />
     </div>
 
-    <div class="form-field">
-      <label for="company">Company</label>
-      <input id="company" type="text" formControlName="company" />
+    <div class="mb-3">
+      <label for="company" class="form-label">Company</label>
+      <input id="company" type="text" class="form-control" formControlName="company" />
     </div>
 
-    <div class="form-field">
-      <label for="email">Email</label>
-      <input id="email" type="email" formControlName="email" />
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input id="email" type="email" class="form-control" formControlName="email" />
       @if (customerForm.get('email')?.invalid && customerForm.get('email')?.touched) {
-        <span class="error">Please enter a valid email</span>
+        <div class="text-danger small mt-1">Please enter a valid email</div>
       }
     </div>
 
-    <div class="form-field">
-      <label for="phone">Phone</label>
-      <input id="phone" type="text" formControlName="phone" />
+    <div class="mb-3">
+      <label for="phone" class="form-label">Phone</label>
+      <input id="phone" type="text" class="form-control" formControlName="phone" />
     </div>
 
-    <div class="form-field">
-      <label for="address">Address</label>
-      <input id="address" type="text" formControlName="address" />
+    <div class="mb-3">
+      <label for="address" class="form-label">Address</label>
+      <input id="address" type="text" class="form-control" formControlName="address" />
     </div>
 
     @if (errorMessage) {
-      <div class="error server-error">{{ errorMessage }}</div>
+      <div class="alert alert-danger py-2">{{ errorMessage }}</div>
     }
 
-    <button type="submit" [disabled]="customerForm.invalid">
+    <button type="submit" class="btn btn-primary" [disabled]="customerForm.invalid">
       {{ isEditMode ? 'Update' : 'Create' }}
     </button>
   </form>

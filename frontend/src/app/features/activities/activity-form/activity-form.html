@@ -1,10 +1,10 @@
-<div class="activity-form-container">
-  <h2>{{ isEditMode ? 'Edit Activity' : 'Add Activity' }}</h2>
+<div class="card p-4" style="max-width: 500px">
+  <h2 class="mb-4">{{ isEditMode ? 'Edit Activity' : 'Add Activity' }}</h2>
 
   <form [formGroup]="activityForm" (ngSubmit)="onSubmit()">
-    <div class="form-field">
-      <label for="customerId">Customer</label>
-      <select id="customerId" formControlName="customerId">
+    <div class="mb-3">
+      <label for="customerId" class="form-label">Customer</label>
+      <select id="customerId" class="form-select" formControlName="customerId">
         <option value="" disabled>Select a customer</option>
         @for (customer of customers(); track customer.id) {
           <option [value]="customer.id">{{ customer.name }}</option>
@@ -12,23 +12,23 @@
       </select>
     </div>
 
-    <div class="form-field">
-      <label for="type">Type</label>
-      <select id="type" formControlName="type">
+    <div class="mb-3">
+      <label for="type" class="form-label">Type</label>
+      <select id="type" class="form-select" formControlName="type">
         @for (type of typeOptions; track type) {
           <option [value]="type">{{ type }}</option>
         }
       </select>
     </div>
 
-    <div class="form-field">
-      <label for="dueDate">Due Date</label>
-      <input id="dueDate" type="date" formControlName="dueDate" />
+    <div class="mb-3">
+      <label for="dueDate" class="form-label">Due Date</label>
+      <input id="dueDate" type="date" class="form-control" formControlName="dueDate" />
     </div>
 
-    <div class="form-field">
-      <label for="status">Status</label>
-      <select id="status" formControlName="status">
+    <div class="mb-3">
+      <label for="status" class="form-label">Status</label>
+      <select id="status" class="form-select" formControlName="status">
         @for (status of statusOptions; track status) {
           <option [value]="status">{{ status }}</option>
         }
@@ -36,10 +36,10 @@
     </div>
 
     @if (errorMessage()) {
-      <div class="error server-error">{{ errorMessage() }}</div>
+      <div class="alert alert-danger py-2">{{ errorMessage() }}</div>
     }
 
-    <button type="submit" [disabled]="activityForm.invalid">
+    <button type="submit" class="btn btn-primary" [disabled]="activityForm.invalid">
       {{ isEditMode ? 'Update' : 'Create' }}
     </button>
   </form>

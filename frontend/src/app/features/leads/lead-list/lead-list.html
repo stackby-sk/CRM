@@ -1,47 +1,54 @@
-<p>lead-list works!</p>
-<div class="lead-list-container">
+<div class="d-flex justify-content-between align-items-center mb-3">
   <h2>Leads</h2>
-  <a routerLink="/leads/new" class="btn-add">+ Add Lead</a>
-
-  @if (loading()) {
-    <p>Loading leads...</p>
-  }
-
-  @if (errorMessage()) {
-    <p class="error">{{ errorMessage() }}</p>
-  }
-
-  @if (!loading() && leads().length === 0) {
-    <p>No leads yet.</p>
-  }
-
-  @if (!loading() && leads().length > 0) {
-    <table>
-      <thead>
-        <tr>
-          <th>Customer</th>
-          <th>Source</th>
-          <th>Status</th>
-          <th>Value</th>
-          <th>Assigned To</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (lead of leads(); track lead.id) {
-          <tr>
-            <td>{{ lead.customerName }}</td>
-            <td>{{ lead.source }}</td>
-            <td>{{ lead.status }}</td>
-            <td>{{ lead.value }}</td>
-            <td>{{ lead.assignedToName || '-' }}</td>
-            <td>
-              <a [routerLink]="['/leads', lead.id, 'edit']">Edit</a>
-              <button (click)="deleteLead(lead.id)">Delete</button>
-            </td>
-          </tr>
-        }
-      </tbody>
-    </table>
-  }
+  <a routerLink="/leads/new" class="btn btn-primary">+ Add Lead</a>
 </div>
+
+@if (loading()) {
+  <p>Loading leads...</p>
+}
+
+@if (errorMessage()) {
+  <div class="alert alert-danger">{{ errorMessage() }}</div>
+}
+
+@if (!loading() && leads().length === 0) {
+  <p class="text-muted">No leads yet.</p>
+}
+
+@if (!loading() && leads().length > 0) {
+  <table class="table table-striped table-hover">
+    <thead class="table-dark">
+      <tr>
+        <th>Customer</th>
+        <th>Source</th>
+        <th>Status</th>
+        <th>Value</th>
+        <th>Assigned To</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (lead of leads(); track lead.id) {
+        <tr>
+          <td>{{ lead.customerName }}</td>
+          <td>{{ lead.source }}</td>
+          <td>
+            <span class="badge bg-info text-dark">{{ lead.status }}</span>
+          </td>
+          <td>{{ lead.value | currency }}</td>
+          <td>{{ lead.assignedToName || '-' }}</td>
+          <td>
+            <a
+              [routerLink]="['/leads', lead.id, 'edit']"
+              class="btn btn-sm btn-outline-primary me-2"
+              >Edit</a
+            >
+            <button class="btn btn-sm btn-outline-danger" (click)="deleteLead(lead.id)">
+              Delete
+            </button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+}

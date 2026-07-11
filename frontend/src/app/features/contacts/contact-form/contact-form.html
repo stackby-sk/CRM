@@ -1,10 +1,10 @@
-<div class="contact-form-container">
-  <h2>{{ isEditMode ? 'Edit Contact' : 'Add Contact' }}</h2>
+<div class="card p-4" style="max-width: 500px">
+  <h2 class="mb-4">{{ isEditMode ? 'Edit Contact' : 'Add Contact' }}</h2>
 
   <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
-    <div class="form-field">
-      <label for="customerId">Customer</label>
-      <select id="customerId" formControlName="customerId">
+    <div class="mb-3">
+      <label for="customerId" class="form-label">Customer</label>
+      <select id="customerId" class="form-select" formControlName="customerId">
         <option value="" disabled>Select a customer</option>
         @for (customer of customers(); track customer.id) {
           <option [value]="customer.id">{{ customer.name }}</option>
@@ -12,31 +12,37 @@
       </select>
     </div>
 
-    <div class="form-field">
-      <label for="name">Name</label>
-      <input id="name" type="text" formControlName="name" />
+    <div class="mb-3">
+      <label for="name" class="form-label">Name</label>
+      <input id="name" type="text" class="form-control" formControlName="name" />
     </div>
 
-    <div class="form-field">
-      <label for="role">Role</label>
-      <input id="role" type="text" formControlName="role" placeholder="e.g. Finance Manager" />
+    <div class="mb-3">
+      <label for="role" class="form-label">Role</label>
+      <input
+        id="role"
+        type="text"
+        class="form-control"
+        formControlName="role"
+        placeholder="e.g. Finance Manager"
+      />
     </div>
 
-    <div class="form-field">
-      <label for="email">Email</label>
-      <input id="email" type="email" formControlName="email" />
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input id="email" type="email" class="form-control" formControlName="email" />
     </div>
 
-    <div class="form-field">
-      <label for="phone">Phone</label>
-      <input id="phone" type="text" formControlName="phone" />
+    <div class="mb-3">
+      <label for="phone" class="form-label">Phone</label>
+      <input id="phone" type="text" class="form-control" formControlName="phone" />
     </div>
 
     @if (errorMessage()) {
-      <div class="error server-error">{{ errorMessage() }}</div>
+      <div class="alert alert-danger py-2">{{ errorMessage() }}</div>
     }
 
-    <button type="submit" [disabled]="contactForm.invalid">
+    <button type="submit" class="btn btn-primary" [disabled]="contactForm.invalid">
       {{ isEditMode ? 'Update' : 'Create' }}
     </button>
   </form>

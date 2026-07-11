@@ -3,7 +3,7 @@ import { RouterLink, Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs';
 import { Lead } from '../lead.model';
 import { LeadService } from '../lead';
-
+import { CurrencyPipe } from '@angular/common';
 @Component({
   selector: 'app-lead-list',
   standalone: true,

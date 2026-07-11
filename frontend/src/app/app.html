@@ -1,12 +1,17 @@
 @if (authService.isLoggedIn()) {
-  <nav class="main-nav">
-    <a routerLink="/dashboard">Dashboard</a>
-    <a routerLink="/customers">Customers</a>
-    <a routerLink="/leads">Leads</a>
-    <a routerLink="/contacts">Contacts</a>
-    <a routerLink="/interactions">Interactions</a>
-    <a routerLink="/activities">Activities</a>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
+    <span class="navbar-brand">CRM</span>
+    <div class="navbar-nav">
+      <a class="nav-link" routerLink="/dashboard">Dashboard</a>
+      <a class="nav-link" routerLink="/customers">Customers</a>
+      <a class="nav-link" routerLink="/leads">Leads</a>
+      <a class="nav-link" routerLink="/contacts">Contacts</a>
+      <a class="nav-link" routerLink="/interactions">Interactions</a>
+      <a class="nav-link" routerLink="/activities">Activities</a>
+    </div>
   </nav>
 }
 
-<router-outlet></router-outlet>
+<div class="container mt-4">
+  <router-outlet></router-outlet>
+</div>
