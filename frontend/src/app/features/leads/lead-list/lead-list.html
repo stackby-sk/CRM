@@ -33,7 +33,7 @@
           <td>{{ lead.customerName }}</td>
           <td>{{ lead.source }}</td>
           <td>
-            <span class="badge bg-info text-dark">{{ lead.status }}</span>
+            <span class="badge" [ngClass]="lead.status | statusBadge">{{ lead.status }}</span>
           </td>
           <td>{{ lead.value | currency }}</td>
           <td>{{ lead.assignedToName || '-' }}</td>
@@ -43,7 +43,7 @@
               class="btn btn-sm btn-outline-primary me-2"
               >Edit</a
             >
-            <button class="btn btn-sm btn-outline-danger" (click)="deleteLead(lead.id)">
+            <button class="btn btn-sm btn-outline-danger" (click)="requestDelete(lead.id)">
               Delete
             </button>
           </td>
@@ -52,3 +52,10 @@
     </tbody>
   </table>
 }
+<app-confirm-dialog
+  [visible]="showConfirm()"
+  message="Are you sure you want to delete this lead?"
+  (confirmed)="onConfirmDelete()"
+  (cancelled)="onCancelDelete()"
+>
+</app-confirm-dialog>

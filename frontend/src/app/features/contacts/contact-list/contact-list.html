@@ -41,7 +41,7 @@
               class="btn btn-sm btn-outline-primary me-2"
               >Edit</a
             >
-            <button class="btn btn-sm btn-outline-danger" (click)="deleteContact(contact.id)">
+            <button class="btn btn-sm btn-outline-danger" (click)="requestDelete(contact.id)">
               Delete
             </button>
           </td>
@@ -50,3 +50,11 @@
     </tbody>
   </table>
 }
+
+<app-confirm-dialog
+  [visible]="showConfirm()"
+  message="Are you sure you want to delete this contact?"
+  (confirmed)="onConfirmDelete()"
+  (cancelled)="onCancelDelete()"
+>
+</app-confirm-dialog>

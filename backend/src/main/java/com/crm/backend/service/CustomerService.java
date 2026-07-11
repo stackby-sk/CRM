@@ -13,8 +13,11 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
 
-    public CustomerService(CustomerRepository customerRepository) {
+    private final CurrentUserService currentUserService;
+
+    public CustomerService(CustomerRepository customerRepository, CurrentUserService currentUserService) {
         this.customerRepository = customerRepository;
+        this.currentUserService = currentUserService;
     }
 
     public List<CustomerResponseDto> getAll() {
@@ -38,6 +41,7 @@ public class CustomerService {
         customer.setPhone(request.getPhone());
         customer.setAddress(request.getAddress());
 
+        customer.setOwner(currentUserService.getCurrentUser());
         Customer saved = customerRepository.save(customer);
         return toResponseDto(saved);
     }
@@ -76,4 +80,5 @@ public class CustomerService {
                 customer.getCreatedAt()
         );
     }
+
 }

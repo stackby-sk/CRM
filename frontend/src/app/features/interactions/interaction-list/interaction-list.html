@@ -38,10 +38,7 @@
           <td>{{ interaction.userName || '-' }}</td>
           <td>{{ interaction.timestamp | date: 'short' }}</td>
           <td>
-            <button
-              class="btn btn-sm btn-outline-danger"
-              (click)="deleteInteraction(interaction.id)"
-            >
+            <button class="btn btn-sm btn-outline-danger" (click)="requestDelete(interaction.id)">
               Delete
             </button>
           </td>
@@ -50,3 +47,11 @@
     </tbody>
   </table>
 }
+
+<app-confirm-dialog
+  [visible]="showConfirm()"
+  message="Are you sure you want to delete this interaction?"
+  (confirmed)="onConfirmDelete()"
+  (cancelled)="onCancelDelete()"
+>
+</app-confirm-dialog>

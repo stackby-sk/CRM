@@ -34,7 +34,9 @@
           <td>{{ activity.type }}</td>
           <td>{{ activity.dueDate | date: 'mediumDate' }}</td>
           <td>
-            <span class="badge bg-warning text-dark">{{ activity.status }}</span>
+            <span class="badge" [ngClass]="activity.status | statusBadge">{{
+              activity.status
+            }}</span>
           </td>
           <td>{{ activity.assignedToName || '-' }}</td>
           <td>
@@ -43,7 +45,7 @@
               class="btn btn-sm btn-outline-primary me-2"
               >Edit</a
             >
-            <button class="btn btn-sm btn-outline-danger" (click)="deleteActivity(activity.id)">
+            <button class="btn btn-sm btn-outline-danger" (click)="requestDelete(activity.id)">
               Delete
             </button>
           </td>
@@ -52,3 +54,11 @@
     </tbody>
   </table>
 }
+
+<app-confirm-dialog
+  [visible]="showConfirm()"
+  message="Are you sure you want to delete this activity?"
+  (confirmed)="onConfirmDelete()"
+  (cancelled)="onCancelDelete()"
+>
+</app-confirm-dialog>

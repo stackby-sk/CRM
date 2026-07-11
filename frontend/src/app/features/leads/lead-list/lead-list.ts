@@ -3,11 +3,13 @@ import { RouterLink, Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs';
 import { Lead } from '../lead.model';
 import { LeadService } from '../lead';
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, NgClass } from '@angular/common';
+import { ConfirmDialog } from '../../../shared/confirm-dialog/confirm-dialog';
+import { StatusBadgePipe } from '../../../shared/status-badge-pipe';
 @Component({
   selector: 'app-lead-list',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, CurrencyPipe, ConfirmDialog, NgClass, StatusBadgePipe],
   templateUrl: './lead-list.html',
   styleUrl: './lead-list.scss',
 })
@@ -15,6 +17,8 @@ export class LeadList implements OnInit {
   leads = signal<Lead[]>([]);
   loading = signal(true);
   errorMessage = signal('');
+  showConfirm = signal(false);
+  pendingDeleteId: number | null = null;
 
   constructor(
     private leadService: LeadService,
@@ -46,17 +50,30 @@ export class LeadList implements OnInit {
     });
   }
 
-  deleteLead(id: number | undefined): void {
+  requestDelete(id: number | undefined): void {
     if (!id) return;
-    if (!confirm('Are you sure you want to delete this lead?')) return;
+    this.pendingDeleteId = id;
+    this.showConfirm.set(true);
+  }
 
-    this.leadService.delete(id).subscribe({
+  onConfirmDelete(): void {
+    if (!this.pendingDeleteId) return;
+
+    this.leadService.delete(this.pendingDeleteId).subscribe({
       next: () => {
-        this.leads.update((list) => list.filter((l) => l.id !== id));
+        this.leads.update((list) => list.filter((l) => l.id !== this.pendingDeleteId));
+        this.showConfirm.set(false);
+        this.pendingDeleteId = null;
       },
-      error: () => {
-        this.errorMessage.set('Failed to delete lead');
+      error: (err) => {
+        this.errorMessage.set(err.error?.error || 'Failed to delete lead');
+        this.showConfirm.set(false);
       },
     });
+  }
+
+  onCancelDelete(): void {
+    this.showConfirm.set(false);
+    this.pendingDeleteId = null;
   }
 }

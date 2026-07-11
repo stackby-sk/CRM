@@ -18,13 +18,15 @@ public class InteractionService {
     private final InteractionRepository interactionRepository;
     private final CustomerRepository customerRepository;
     private final UserRepository userRepository;
-
+    private final CurrentUserService currentUserService;
     public InteractionService(InteractionRepository interactionRepository,
                               CustomerRepository customerRepository,
-                              UserRepository userRepository) {
+                              UserRepository userRepository,
+                              CurrentUserService currentUserService) {
         this.interactionRepository = interactionRepository;
         this.customerRepository = customerRepository;
         this.userRepository = userRepository;
+        this.currentUserService = currentUserService;
     }
 
     public List<InteractionResponseDto> getAll() {
@@ -54,6 +56,8 @@ public class InteractionService {
             User user = userRepository.findById(request.getUserId())
                     .orElseThrow(() -> new RuntimeException("User not found"));
             interaction.setUser(user);
+        } else {
+            interaction.setUser(currentUserService.getCurrentUser());
         }
 
         Interaction saved = interactionRepository.save(interaction);

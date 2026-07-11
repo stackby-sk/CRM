@@ -1,14 +1,16 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { RouterLink, Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs';
-import { DatePipe } from '@angular/common';
+import { DatePipe, NgClass } from '@angular/common';
 import { Activity } from '../activity.model';
 import { ActivityService } from '../activity';
+import { ConfirmDialog } from '../../../shared/confirm-dialog/confirm-dialog';
+import { StatusBadgePipe } from '../../../shared/status-badge-pipe';
 
 @Component({
   selector: 'app-activity-list',
   standalone: true,
-  imports: [RouterLink, DatePipe],
+  imports: [RouterLink, DatePipe, ConfirmDialog, NgClass, StatusBadgePipe],
   templateUrl: './activity-list.html',
   styleUrl: './activity-list.scss',
 })
@@ -16,6 +18,9 @@ export class ActivityList implements OnInit {
   activities = signal<Activity[]>([]);
   loading = signal(true);
   errorMessage = signal('');
+
+  showConfirm = signal(false);
+  pendingDeleteId: number | null = null;
 
   constructor(
     private activityService: ActivityService,
@@ -47,17 +52,30 @@ export class ActivityList implements OnInit {
     });
   }
 
-  deleteActivity(id: number | undefined): void {
+  requestDelete(id: number | undefined): void {
     if (!id) return;
-    if (!confirm('Are you sure you want to delete this activity?')) return;
+    this.pendingDeleteId = id;
+    this.showConfirm.set(true);
+  }
 
-    this.activityService.delete(id).subscribe({
+  onConfirmDelete(): void {
+    if (!this.pendingDeleteId) return;
+
+    this.activityService.delete(this.pendingDeleteId).subscribe({
       next: () => {
-        this.activities.update((list) => list.filter((a) => a.id !== id));
+        this.activities.update((list) => list.filter((a) => a.id !== this.pendingDeleteId));
+        this.showConfirm.set(false);
+        this.pendingDeleteId = null;
       },
-      error: () => {
-        this.errorMessage.set('Failed to delete activity');
+      error: (err) => {
+        this.errorMessage.set(err.error?.error || 'Failed to delete activity');
+        this.showConfirm.set(false);
       },
     });
+  }
+
+  onCancelDelete(): void {
+    this.showConfirm.set(false);
+    this.pendingDeleteId = null;
   }
 }
